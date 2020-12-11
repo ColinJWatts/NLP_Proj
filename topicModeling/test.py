@@ -1,8 +1,23 @@
 from sequentialTopicModel import TopicModel
 import torch
 
+print("Would you like to test on magic, warframe, or current events")
+test = ""
+channel = None
+while test == "":
+    test = input()
+    if test == "magic":
+        channel = "magic-the-shittening"
+    elif test == "warframe":
+        channel = "space-ninjas-n-shit"
+    elif test == "events" or test == "current" or test == "current events":
+        channel = "covid-n-shit"
+    else:
+        test = ""
+        print("Could not parse the input, please try again")
+
 numMessages = 12
-model = TopicModel(numMessages=numMessages, channel="magic-the-shittening")
+model = TopicModel(numMessages=numMessages, channel=channel)
 
 n = 10
 

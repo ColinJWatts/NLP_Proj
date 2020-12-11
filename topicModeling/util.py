@@ -14,7 +14,7 @@ def oneHotEncode(doc, vocab, addOneReg=False):
     lookup = createLookup(vocab)
     for word in text:
         if word in vocab:
-            result[lookup[word]] += 1
+            result[lookup[word]] = 1
     return result
 
 def createVocab(corpus):
@@ -27,6 +27,18 @@ def createVocab(corpus):
                 vocab.append(w)
 
     return vocab
+
+def createVocabCount(vocab, corpus):
+    lookup = createLookup(vocab)
+    count = [0] * len(vocab)
+
+    for doc in corpus:
+        text = doc["text"].split()
+        for word in text:
+            w = word.lower()
+            if w in vocab:
+                count[lookup[w]] += 1
+    return count
 
 def removeChannelsFromCorpus(corpus, channels):
     newCorpus = []
@@ -75,3 +87,12 @@ def cleanPunctuationFromDoc(doc, punctuaction=['.', ',', '!', '?', '"']):
 
     doc["text"] = text
     return doc
+
+def cleanProfanityFromVocab(vocab, profanityFilePath="profanity.txt"):
+    swears = open(profanityFilePath, 'r').read().splitlines()
+    newVocab = []
+    for word in vocab:
+        if not word in swears:
+            newVocab.append(word)
+
+    return newVocab

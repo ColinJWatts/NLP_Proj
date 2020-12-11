@@ -3,7 +3,7 @@ import re
 from Librarian import Librarian
 
 client = discord.Client()
-lib = Librarian()
+lib = Librarian(maxDocuments=100)
 f = open("./in.txt", 'r')
 optedIn = f.read().splitlines()
 f.close()
@@ -20,7 +20,6 @@ def updateOptInFile(newList):
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-
 
 @client.event
 async def on_message(message):

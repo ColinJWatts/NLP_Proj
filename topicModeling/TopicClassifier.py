@@ -7,8 +7,8 @@ class TopicClassifier(nn.Module):
         super(TopicClassifier, self).__init__()
 
         inSize = len(vocab)
-        hiddenSize1 = int(inSize*1.2)
-        hiddenSize2 = 64
+        hiddenSize1 = 64
+        hiddenSize2 = 128
         self.dense1 = nn.Linear(inSize, hiddenSize1)
         self.dense2 = nn.Linear(hiddenSize1, hiddenSize2)
         self.dense3 = nn.Linear(hiddenSize2, 1)

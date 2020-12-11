@@ -1,11 +1,15 @@
 from Librarian import Librarian
+import numpy as np
+import sys
+sys.path.append("..\\topicModeling")
+import util
 
 punctuation = ['.', ',', '!', '?', '"']
-# punctuation = []
 
 lib = Librarian()
 corpus = lib.getCorpus()
 
+print(f"Num Messages: {len(corpus)}")
 vocab = []
 vocabCount = []
 vocabLookup = {}
@@ -39,14 +43,16 @@ for i in range(len(vocab)):
         newVocab.append(vocab[i])
         newVocabCount.append(vocabCount[i])
         newVocabLookup[vocab[i]] = len(newVocab) - 1
-print(len(newVocab))
-# print(newVocab)
-# print(f"{len(newVocab)}   {sum(newVocabCount)}   {sum(vocabCount)}")
+print(f"{len(vocab)}   {len(newVocab)}   {sum(newVocabCount)}   {sum(vocabCount)}")
 
-for word in vocab:
-    if 'deque' in word:
-        print(f"{word}: {newVocabCount[newVocabLookup[word]]}")
+f = open("vocab.txt", 'w')
+for word in newVocab:
+    f.write(f"{word.encode('utf8')}\n")
+f.flush()
+f.close()
 
-
-
-# print(channelCounts)
+noStopWords = util.removeStopwordsFromVocab(vocab)
+noStopWordsCount = util.createVocabCount(noStopWords, corpus)
+for i in range(20):
+    print(f"{noStopWords[np.argmax(noStopWordsCount)]}: {noStopWordsCount[np.argmax(noStopWordsCount)]}")
+    noStopWordsCount[np.argmax(noStopWordsCount)] = 0
